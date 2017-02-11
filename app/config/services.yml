@@ -1,0 +1,49 @@
+# Learn more about services, parameters and containers at
+# http://symfony.com/doc/current/service_container.html
+imports:
+    - { resource: controllers.yml }
+
+parameters:
+#    parameter_name: value
+  app.repository.folder.class: AppBundle\Repository\FolderRepository
+  app.repository.photo.class: AppBundle\Repository\PhotoRepository
+  app.manager.upload.class: AppBundle\Manager\UploadManager
+  app.entity.folder.class: AppBundle\Entity\Folder
+  app.entity.photo.class: AppBundle\Entity\Photo
+
+  google.cloud.storage.client.class: Google\Cloud\Storage\StorageClient
+
+services:
+#    service_name:
+#        class: AppBundle\Directory\ClassName
+#        arguments: ["@another_service_name", "plain_value", "%parameter_name%"]
+
+  app.repository.folder:
+    class: "%app.repository.folder.class%"
+    factory:
+      - "@doctrine.orm.entity_manager"
+      - getRepository
+    arguments:
+      - "%app.entity.folder.class%"
+
+  app.repository.photo:
+    class: "%app.repository.photo.class%"
+    factory:
+      - "@doctrine.orm.entity_manager"
+      - getRepository
+    arguments:
+      - "%app.entity.photo.class%"
+
+  app.manager.upload:
+    class: "%app.manager.upload.class%"
+    arguments:
+      - "@app.repository.photo"
+      - "@google.cloud.storage.client"
+      - "%google_storage_default_name%"
+
+  google.cloud.storage.client:
+    class: "%google.cloud.storage.client.class%"
+    arguments:
+      config:
+        projectId: "%google_storage_project_id%"
+        keyFilePath: "%google_storage_key_file_path%"

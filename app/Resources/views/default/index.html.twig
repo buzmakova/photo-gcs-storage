@@ -1,0 +1,49 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    {% include "default/breadcrumbs.html.twig" with {"breadcrumbs": breadcrumbs} %}
+
+    <div class="row">
+        <div class="col-md-8">
+            <p class="lead">Folder List</p>
+            {% if folderList is empty %}
+                There is no folders. You can add them.
+            {% endif %}
+            <div class="list-group">
+                {% for folder in folderList %}
+                    <a href="{{ path("folder", {'id':folder.id}) }}" class="list-group-item">
+                        {{ folder.name }}
+                    </a>
+                {% endfor %}
+            </div>
+
+            <p class="lead">Photo List</p>
+            {% if photoList is empty %}
+                There is no photos. You can upload them.
+            {% endif %}
+            <div class="list-group">
+                {% for photo in photoList %}
+                    <div class="list-group-item">
+                        {{ photo.name }}
+                        <a href="{{ path("photo.delete", {'id':photo.id}) }}" onclick="return confirm('Are you sure?');" class="btn btn-default btn-xs btn-file">Delete</a>
+                        <a href="{{ path("photo.download", {'id':photo.id}) }}" class="btn btn-default btn-xs btn-file">Download</a>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+        <div class="col-md-4">
+            <p class="lead">Create folder</p>
+            {% include "folder/form/create.html.twig" with {"form": createFolderForm} %}
+
+            <p class="lead">Upload file</p>
+            {% include "photo/form/upload.html.twig" with {"form": uploadPhotoForm} %}
+        </div>
+    </div>
+{% endblock %}
+{% block stylesheets %}
+<style>
+    .btn-file {
+        float:right;
+    }
+</style>
+{% endblock %}

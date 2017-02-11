@@ -1,0 +1,11 @@
+parameters:
+  app.controller.index.class: AppBundle\Controller\IndexController
+services:
+  app.controller.index:
+    class: "%app.controller.index.class%"
+    arguments:
+      - "@app.manager.upload"
+      - "@app.repository.folder"
+      - "@app.repository.photo"
+      - "@templating"
+      - "@form.factory"
