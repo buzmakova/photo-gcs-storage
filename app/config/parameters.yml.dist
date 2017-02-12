@@ -2,7 +2,7 @@
 # Set parameters here that may be different on each deployment target of the app, e.g. development, staging, production.
 # http://symfony.com/doc/current/best_practices/configuration.html#infrastructure-related-configuration
 parameters:
-    database_driver:   ~
+    database_driver:   pdo_pgsql
     database_host:     127.0.0.1
     database_port:     ~
     database_name:     symfony
@@ -12,7 +12,7 @@ parameters:
     # database_path: "%kernel.root_dir%/data.db3"
 
     google_storage_project_id: ~
-    google_storage_key_file_path: ~
+    google_storage_key_file_path: '%kernel.root_dir%/Resources/GCSAuth/123456.json'
     google_storage_default_name: ~
 
     mailer_transport:  smtp
